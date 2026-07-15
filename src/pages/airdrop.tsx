@@ -4,8 +4,8 @@ import { TaskRow } from "@/components/nerdio/TaskRow";
 import { ReferralTier } from "@/components/nerdio/ReferralTier";
 import { supabase } from "@/lib/supabaseClient";
 import { useNerdioProfile } from "@/context/NerdioContext";
-import { DailyTask, FALLBACK_TASKS, formatCountdown, msUntilNextRotation } from "@/lib/nerdio-data";
-import { mono, sans, green, dim, bgPanel, line, lineSoft } from "@/lib/theme";
+import { DailyTask, FALLBACK_TASKS, POINTS_PER_REFERRAL, formatCountdown, msUntilNextRotation } from "@/lib/nerdio-data";
+import { display, serif, stamp_f, ink, inkSoft, accent, paperDeep, paperCard, rule } from "@/lib/theme";
 
 export default function AirdropPage() {
   const { profile, setProfile } = useNerdioProfile();
@@ -45,9 +45,16 @@ export default function AirdropPage() {
        action happened before writing to `task_completions`. */
     setDone(prev => ({ ...prev, [task.id]: true }));
     await supabase.from("task_completions").insert({ user_id: profile.id, task_id: task.id });
-    const newPoints = profile.points + task.points;
-    await supabase.from("profiles").update({ points: newPoints }).eq("id", profile.id);
-    setProfile({ ...profile, points: newPoints });
+
+    /* Points are credited server-side by the trg_award_task_points
+       trigger in schema.sql — the client never writes `points` directly.
+       Re-fetch so the UI reflects the authoritative total. */
+    const { data: refreshed } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", profile.id)
+      .single();
+    if (refreshed) setProfile({ ...profile, ...(refreshed as any) });
   }
 
   const referralLink = profile ? `${window.location.origin}?ref=${profile.referral_code}` : "";
@@ -57,36 +64,37 @@ export default function AirdropPage() {
 
   return (
     <div>
-      {/* Points ticker — echoes the banner's wallet readout */}
+      {/* Points ticker — styled like a printed stock-ticker strip rather
+          than a glowing terminal readout. */}
       <div style={{
-        background: bgPanel, border: `1px solid ${line}`, borderRadius: "6px",
+        background: paperDeep, border: `1px solid ${rule}`,
         padding: "20px", marginBottom: "26px", textAlign: "center",
       }}>
-        <div style={{ fontFamily: mono, fontSize: "0.62rem", color: dim, letterSpacing: "0.14em", textTransform: "uppercase" }}>
+        <div style={{ fontFamily: stamp_f, fontSize: "0.64rem", color: inkSoft, letterSpacing: "0.14em", textTransform: "uppercase" }}>
           Points balance
         </div>
-        <div style={{ fontFamily: mono, fontSize: "2.4rem", fontWeight: 600, color: green, margin: "6px 0" }}>
+        <div style={{ fontFamily: display, fontSize: "2.6rem", color: ink, margin: "4px 0" }}>
           {(profile?.points ?? 0).toLocaleString()}
         </div>
-        <div style={{ fontFamily: mono, fontSize: "0.62rem", color: "rgba(255,255,255,0.35)" }}>
-          next task cycle in {countdown || "00:00:00"}
+        <div style={{ fontFamily: stamp_f, fontSize: "0.64rem", color: accent }}>
+          next edition in {countdown || "00:00:00"}
         </div>
       </div>
 
-      <Label text="Daily tasks · resets every 24h" />
+      <Label text="Today's assignments · resets every 24h" />
       <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginBottom: "30px" }}>
         {tasks.map(task => (
           <TaskRow key={task.id} task={task} done={!!done[task.id]} onComplete={() => completeTask(task)} />
         ))}
       </div>
 
-      <Label text="Referrals" />
-      <div style={{ background: bgPanel, border: `1px solid ${line}`, borderRadius: "6px", padding: "18px", marginBottom: "18px" }}>
-        <div style={{ fontFamily: mono, fontSize: "0.68rem", color: dim, marginBottom: "10px" }}>Your link</div>
+      <Label text="Referral drive" />
+      <div style={{ background: paperCard, border: `1px solid ${rule}`, padding: "18px", marginBottom: "18px" }}>
+        <div style={{ fontFamily: stamp_f, fontSize: "0.68rem", color: inkSoft, marginBottom: "10px" }}>Your link</div>
         <div style={{ display: "flex", gap: "8px" }}>
           <div style={{
-            flex: 1, background: "#0d0f08", border: `1px solid ${lineSoft}`, borderRadius: "4px",
-            padding: "10px 12px", fontFamily: mono, fontSize: "0.72rem", color: green,
+            flex: 1, background: paperDeep, border: `1px solid ${rule}`,
+            padding: "10px 12px", fontFamily: stamp_f, fontSize: "0.72rem", color: ink,
             overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
           }}>
             {referralLink || "connect to generate"}
@@ -94,8 +102,8 @@ export default function AirdropPage() {
           <button
             onClick={() => referralLink && navigator.clipboard.writeText(referralLink)}
             style={{
-              background: green, color: "#0a0b09", border: "none", borderRadius: "4px",
-              padding: "0 16px", fontFamily: sans, fontSize: "0.72rem", fontWeight: 700, cursor: "pointer",
+              background: accent, color: "#fff", border: "none",
+              padding: "0 16px", fontFamily: display, fontSize: "0.72rem", textTransform: "uppercase", cursor: "pointer",
             }}
           >
             Copy
@@ -104,11 +112,11 @@ export default function AirdropPage() {
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
-        <ReferralTier label="5 referrals" progress={tier5} of={5} reward="500 pts" unlocked={refCount >= 5} />
-        <ReferralTier label="10 referrals" progress={tier10} of={5} reward="1,500 pts" unlocked={refCount >= 10} />
+        <ReferralTier label="5 referrals" progress={tier5} of={5} reward={`${5 * POINTS_PER_REFERRAL} pts`} unlocked={refCount >= 5} />
+        <ReferralTier label="10 referrals" progress={tier10} of={5} reward={`${10 * POINTS_PER_REFERRAL} pts`} unlocked={refCount >= 10} />
       </div>
-      <p style={{ fontFamily: sans, fontSize: "0.72rem", color: dim, marginTop: "10px" }}>
-        {refCount} account{refCount === 1 ? "" : "s"} referred so far.
+      <p style={{ fontFamily: serif, fontSize: "0.76rem", color: inkSoft, marginTop: "10px" }}>
+        {refCount} account{refCount === 1 ? "" : "s"} referred so far · {POINTS_PER_REFERRAL} pts each.
       </p>
     </div>
   );

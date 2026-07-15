@@ -1,7 +1,7 @@
 import { Clipping } from "@/components/nerdio/Clipping";
 import { Label } from "@/components/nerdio/Label";
 import { useNerdioProfile } from "@/context/NerdioContext";
-import { sans, mono, green, stamp, dim, bgPanel, line } from "@/lib/theme";
+import { display, serif, stamp_f, ink, inkSoft, accent, paperCard, rule } from "@/lib/theme";
 
 export default function ProfilePage() {
   const { profile } = useNerdioProfile();
@@ -10,18 +10,18 @@ export default function ProfilePage() {
     <div>
       <Label text="Identity file" />
       <Clipping>
-        <div style={{ fontFamily: "'Special Elite','Courier New',monospace", fontSize: "0.68rem", letterSpacing: "0.06em", color: stamp, marginBottom: "10px" }}>
-          NERDIO TIMES — HOLDER RECORD
+        <div style={{ fontFamily: stamp_f, fontSize: "0.66rem", letterSpacing: "0.06em", color: accent, marginBottom: "10px", textTransform: "uppercase" }}>
+          Nerdio Times — holder record
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
           {profile?.x_avatar_url ? (
-            <img src={profile.x_avatar_url} alt="" style={{ width: 56, height: 56, borderRadius: "50%" }} />
+            <img src={profile.x_avatar_url} alt="" style={{ width: 56, height: 56, borderRadius: "50%", border: `2px solid ${ink}` }} />
           ) : (
-            <div style={{ width: 56, height: 56, borderRadius: "50%", background: "#d8d2c0" }} />
+            <div style={{ width: 56, height: 56, borderRadius: "50%", background: "#d8d0ba", border: `2px solid ${ink}` }} />
           )}
           <div>
-            <div style={{ fontFamily: sans, fontWeight: 800, fontSize: "1.1rem" }}>@{profile?.x_handle ?? "unknown"}</div>
-            <div style={{ fontFamily: mono, fontSize: "0.72rem", color: "#4c4a3e" }}>referral code: {profile?.referral_code ?? "—"}</div>
+            <div style={{ fontFamily: display, fontSize: "1.2rem", color: ink }}>@{profile?.x_handle ?? "unknown"}</div>
+            <div style={{ fontFamily: stamp_f, fontSize: "0.72rem", color: inkSoft }}>referral code: {profile?.referral_code ?? "—"}</div>
           </div>
         </div>
       </Clipping>
@@ -36,9 +36,9 @@ export default function ProfilePage() {
 
 function StatBlock({ label, value }: { label: string; value: string }) {
   return (
-    <div style={{ background: bgPanel, border: `1px solid ${line}`, borderRadius: "6px", padding: "16px" }}>
-      <div style={{ fontFamily: mono, fontSize: "0.6rem", color: dim, letterSpacing: "0.1em", textTransform: "uppercase" }}>{label}</div>
-      <div style={{ fontFamily: mono, fontSize: "1.6rem", color: green, fontWeight: 600, marginTop: "4px" }}>{value}</div>
+    <div style={{ background: paperCard, border: `1px solid ${rule}`, padding: "16px" }}>
+      <div style={{ fontFamily: stamp_f, fontSize: "0.62rem", color: inkSoft, letterSpacing: "0.08em", textTransform: "uppercase" }}>{label}</div>
+      <div style={{ fontFamily: display, fontSize: "1.9rem", color: ink, marginTop: "4px" }}>{value}</div>
     </div>
   );
 }
