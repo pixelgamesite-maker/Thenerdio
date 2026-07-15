@@ -14,17 +14,35 @@ export function ConnectGate({ onConnect, connecting }: { onConnect: () => void; 
           backgroundImage: "radial-gradient(rgba(33,28,20,0.05) 0.7px, transparent 0.7px)",
           backgroundSize: "5px 5px",
         }}>
+          <div style={{ position: "relative", width: "132px", margin: "0 auto 14px" }}>
+            <img
+              src="/Nerd-head.png"
+              alt="Nerdio"
+              style={{
+                width: "132px", height: "132px", objectFit: "cover",
+                border: `3px solid ${ink}`, boxShadow: "0 4px 10px rgba(33,20,12,0.25)",
+                transform: "rotate(-2deg)", display: "block", background: "#fff",
+              }}
+            />
+            <div style={{
+              position: "absolute", top: "-8px", right: "-14px",
+              fontFamily: stamp_f, fontSize: "0.58rem", letterSpacing: "0.1em",
+              textTransform: "uppercase", color: "#fff",
+              background: accent, padding: "3px 7px", transform: "rotate(6deg)",
+            }}>
+              Exclusive
+            </div>
+          </div>
           <div style={{
-            display: "inline-block", fontFamily: stamp_f, fontSize: "0.62rem",
-            letterSpacing: "0.14em", textTransform: "uppercase", color: "#fff",
-            background: accent, padding: "3px 8px", marginBottom: "12px",
+            textAlign: "center", fontFamily: stamp_f, fontSize: "0.62rem",
+            fontStyle: "italic", color: inkSoft, marginBottom: "16px",
           }}>
-            Exclusive
+            Pictured: Nerdio, allegedly unbothered
           </div>
 
           <h1 style={{
             margin: "0 0 10px", fontFamily: display, fontSize: "1.9rem",
-            lineHeight: 1.05, color: ink, textTransform: "uppercase",
+            lineHeight: 1.05, color: ink, textTransform: "uppercase", textAlign: "center",
           }}>
             Airdrop opens to the public
           </h1>
