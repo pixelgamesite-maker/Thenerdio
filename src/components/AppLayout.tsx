@@ -1,12 +1,11 @@
-import { Redirect, Route, Switch } from "wouter";
+import { Route, Switch } from "wouter";
 import { useAuth } from "@/hooks/useAuth";
 import { NerdioContext } from "@/context/NerdioContext";
 import { ConnectGate } from "@/components/nerdio/ConnectGate";
 import { AppShell } from "@/components/nerdio/AppShell";
+import Home from "@/pages/home";
 import ProfilePage from "@/pages/profile";
 import AirdropPage from "@/pages/airdrop";
-import FaqPage from "@/pages/faq";
-import LorePage from "@/pages/lore";
 import { bgVoid, mono, green } from "@/lib/theme";
 
 export function AppLayout() {
@@ -24,13 +23,9 @@ export function AppLayout() {
     <NerdioContext.Provider value={{ profile, setProfile }}>
       <AppShell profile={profile} onSignOut={signOut}>
         <Switch>
+          <Route path="/" component={Home} />
           <Route path="/profile" component={ProfilePage} />
           <Route path="/airdrop" component={AirdropPage} />
-          <Route path="/faq" component={FaqPage} />
-          <Route path="/lore" component={LorePage} />
-          <Route path="/">
-            <Redirect to="/airdrop" />
-          </Route>
           <Route>
             <div style={{ fontFamily: mono, fontSize: "0.9rem", color: green, textAlign: "center", padding: "40px 0" }}>
               404 — page not found
