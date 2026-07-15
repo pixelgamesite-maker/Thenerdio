@@ -1,59 +1,51 @@
-import { Masthead } from "@/components/nerdio/Masthead";
-import { display, stamp_f, paper, paperCard, ink, inkSoft, rule, accent, accentDark, shadowCard } from "@/lib/theme";
+import { heading, body, bg, surface, white, whiteSoft, whiteFaint, stroke, lemon, shadowCard } from "@/lib/theme";
 
 export function ConnectGate({ onConnect, connecting }: { onConnect: () => void; connecting: boolean }) {
-  const today = new Date().toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" });
-
   return (
-    <div style={{ minHeight: "100vh", background: paper, padding: "12px" }}>
-      <div style={{ maxWidth: "480px", margin: "0 auto" }}>
-        <Masthead dateline={today} />
+    <div style={{ minHeight: "100vh", background: bg, display: "flex", alignItems: "center", justifyContent: "center", padding: "20px" }}>
+      <div style={{ width: "100%", maxWidth: "380px" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", marginBottom: "26px" }}>
+          <img src="/Nerd-logo.jpg" alt="" style={{ width: "34px", height: "34px", borderRadius: "50%" }} />
+          <span style={{ fontFamily: heading, fontSize: "1.2rem", fontWeight: 800, color: white }}>The Nerdio</span>
+        </div>
 
         <div style={{
-          background: paperCard, boxShadow: shadowCard, padding: "26px 24px 28px", marginTop: "18px",
-          backgroundImage: "radial-gradient(rgba(33,28,20,0.05) 0.7px, transparent 0.7px)",
-          backgroundSize: "5px 5px",
+          background: surface, border: `1px solid ${stroke}`, borderRadius: "20px",
+          padding: "28px 24px", boxShadow: shadowCard, textAlign: "center",
         }}>
-          <div style={{ position: "relative", width: "132px", margin: "0 auto 14px" }}>
-            <img
-              src="/Nerd-head.png"
-              alt="Nerdio"
-              style={{
-                width: "132px", height: "132px", objectFit: "cover",
-                border: `3px solid ${ink}`, boxShadow: "0 4px 10px rgba(33,20,12,0.25)",
-                transform: "rotate(-2deg)", display: "block", background: "#fff",
-              }}
-            />
-            <div style={{
-              position: "absolute", top: "-8px", right: "-14px",
-              fontFamily: stamp_f, fontSize: "0.58rem", letterSpacing: "0.1em",
-              textTransform: "uppercase", color: "#fff",
-              background: accent, padding: "3px 7px", transform: "rotate(6deg)",
-            }}>
-              Exclusive
-            </div>
-          </div>
-          <div style={{ height: "1px", background: rule, margin: "6px 0 20px" }} />
+          <img
+            src="/Nerd-head.png"
+            alt="Nerdio"
+            style={{
+              width: "92px", height: "92px", objectFit: "cover", borderRadius: "50%",
+              border: `3px solid ${lemon}`, margin: "0 auto 18px", display: "block", background: "#fff",
+            }}
+          />
+
+          <h1 style={{ margin: "0 0 8px", fontFamily: heading, fontSize: "1.35rem", fontWeight: 800, color: white, lineHeight: 1.25 }}>
+            The airdrop is live
+          </h1>
+          <p style={{ margin: "0 0 22px", fontFamily: body, fontSize: "0.86rem", lineHeight: 1.6, color: whiteSoft }}>
+            Connect your X account to start earning points from daily tasks and referrals.
+          </p>
 
           <button
             onClick={onConnect}
             disabled={connecting}
             style={{
-              width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: "10px",
-              background: connecting ? "#c7bda3" : accent, color: "#fff",
-              border: "none", padding: "15px",
-              fontFamily: display, fontSize: "0.95rem", letterSpacing: "0.02em", textTransform: "uppercase",
-              cursor: connecting ? "not-allowed" : "pointer", transition: "background 0.2s",
+              width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: "9px",
+              background: connecting ? "rgba(215,242,76,0.4)" : lemon, color: bg,
+              border: "none", borderRadius: "12px", padding: "14px",
+              fontFamily: heading, fontSize: "0.9rem", fontWeight: 800,
+              cursor: connecting ? "not-allowed" : "pointer",
             }}
-            onMouseEnter={e => { if (!connecting) (e.currentTarget as HTMLButtonElement).style.background = accentDark; }}
-            onMouseLeave={e => { if (!connecting) (e.currentTarget as HTMLButtonElement).style.background = accent; }}
           >
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
               <path d="M18.9 1.15h3.68l-8.04 9.19L24 22.85h-7.41l-5.8-7.58-6.64 7.58H.46l8.6-9.83L0 1.15h7.6l5.24 6.93 6.06-6.93Zm-1.29 19.42h2.04L6.49 3.32H4.3l13.31 17.25Z" />
             </svg>
             {connecting ? "Connecting..." : "Connect X to enter"}
           </button>
-          <p style={{ margin: "12px 0 0", fontFamily: stamp_f, fontSize: "0.64rem", color: inkSoft, textAlign: "center" }}>
+          <p style={{ margin: "12px 0 0", fontFamily: body, fontSize: "0.68rem", color: whiteFaint }}>
             We only read your public profile. Nothing is posted on your behalf.
           </p>
         </div>
