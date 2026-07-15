@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { supabase } from "@/lib/supabaseClient";
-import { bgVoid, mono, green, dim } from "@/lib/theme";
-import { TerminalBar } from "@/components/nerdio/TerminalBar";
+import { paper, paperCard, display, stamp_f, ink, inkSoft, accent, shadowCard } from "@/lib/theme";
 
 /* Supabase's client parses the OAuth redirect (detectSessionInUrl is on
    by default), so this page just needs to wait for a session to show up
@@ -12,7 +11,7 @@ import { TerminalBar } from "@/components/nerdio/TerminalBar";
 export default function AuthCallback() {
   const [, navigate] = useLocation();
   const [status, setStatus] = useState<"waiting" | "error">("waiting");
-  const [message, setMessage] = useState("verifying with x...");
+  const [message, setMessage] = useState("Verifying with X...");
 
   useEffect(() => {
     let settled = false;
@@ -33,38 +32,44 @@ export default function AuthCallback() {
     });
 
     const timeout = setTimeout(() => {
-      if (!settled) { setStatus("error"); setMessage("no session appeared — check the redirect URL in your X app settings."); }
+      if (!settled) { setStatus("error"); setMessage("No session appeared — check the redirect URL in your X app settings."); }
     }, 8000);
 
     return () => { sub.subscription.unsubscribe(); clearTimeout(timeout); };
   }, [navigate]);
 
   return (
-    <div style={{ minHeight: "100vh", background: bgVoid, display: "flex", alignItems: "center", justifyContent: "center", padding: "24px" }}>
-      <div style={{ width: "100%", maxWidth: "420px", border: "1px solid rgba(143,214,148,0.16)", borderRadius: "8px", overflow: "hidden" }}>
-        <TerminalBar path="~/auth/callback" />
-        <div style={{ padding: "26px 22px", background: "#121409" }}>
-          <div style={{ fontFamily: mono, fontSize: "0.8rem", color: status === "error" ? "#c5453a" : green }}>
-            $ {message}
-          </div>
-          {status === "waiting" && (
-            <div style={{ fontFamily: mono, fontSize: "0.72rem", color: dim, marginTop: "10px" }}>
-              hang tight, this only takes a second_
-            </div>
-          )}
-          {status === "error" && (
-            <button
-              onClick={() => navigate("/")}
-              style={{
-                marginTop: "16px", background: "none", border: "1px solid rgba(143,214,148,0.3)",
-                color: green, borderRadius: "4px", padding: "8px 14px",
-                fontFamily: mono, fontSize: "0.7rem", cursor: "pointer",
-              }}
-            >
-              back to start
-            </button>
-          )}
+    <div style={{ minHeight: "100vh", background: paper, display: "flex", alignItems: "center", justifyContent: "center", padding: "24px" }}>
+      <div style={{
+        width: "100%", maxWidth: "400px", background: paperCard, boxShadow: shadowCard, padding: "28px 24px",
+        backgroundImage: "radial-gradient(rgba(33,28,20,0.05) 0.7px, transparent 0.7px)", backgroundSize: "5px 5px",
+      }}>
+        <div style={{
+          fontFamily: stamp_f, fontSize: "0.62rem", letterSpacing: "0.14em", textTransform: "uppercase",
+          color: status === "error" ? accent : inkSoft, marginBottom: "10px",
+        }}>
+          Press room
         </div>
+        <div style={{ fontFamily: display, fontSize: "1.2rem", color: status === "error" ? accent : ink, textTransform: "uppercase", lineHeight: 1.2 }}>
+          {message}
+        </div>
+        {status === "waiting" && (
+          <div style={{ fontFamily: stamp_f, fontSize: "0.7rem", color: inkSoft, marginTop: "12px" }}>
+            hang tight, this only takes a second_
+          </div>
+        )}
+        {status === "error" && (
+          <button
+            onClick={() => navigate("/")}
+            style={{
+              marginTop: "18px", background: "none", border: `1px solid ${accent}`,
+              color: accent, padding: "8px 14px",
+              fontFamily: stamp_f, fontSize: "0.7rem", cursor: "pointer",
+            }}
+          >
+            back to start
+          </button>
+        )}
       </div>
     </div>
   );
