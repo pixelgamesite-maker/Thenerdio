@@ -1,4 +1,5 @@
-import { heading, body, white, whiteSoft, lemon } from "@/lib/theme";
+import { Link } from "wouter";
+import { heading, body, bg, white, whiteSoft, lemon } from "@/lib/theme";
 
 const PARTICLES = [
   { left: "8%",  size: 6,  duration: 9,  delay: 0    },
@@ -17,7 +18,7 @@ export function HeroSection() {
   return (
     <div style={{
       position: "relative", overflow: "hidden", textAlign: "center",
-      padding: "38px 20px 30px", marginBottom: "6px",
+      padding: "38px 20px 34px", marginBottom: "6px",
       background: "radial-gradient(ellipse at center 20%, rgba(215,242,76,0.1), transparent 65%)",
     }}>
       {PARTICLES.map((p, i) => (
@@ -31,48 +32,47 @@ export function HeroSection() {
         />
       ))}
 
-      <div className="nerdio-hero-photo-wrap">
-        <div className="nerdio-hero-glow" />
-        <img src="/Nerd-head.png" alt="Nerdio" className="nerdio-hero-photo" />
-      </div>
+      {/* Raw PNG, no circle mask or fill behind it — just a gentle float. */}
+      <img src="/Nerd-head.png" alt="Nerdio" className="nerdio-hero-photo" />
 
       <h1 style={{
-        margin: "22px 0 8px", fontFamily: heading, fontWeight: 800, color: white,
+        margin: "18px 0 8px", fontFamily: heading, fontWeight: 800, color: white,
         fontSize: "clamp(1.6rem, 7vw, 2.2rem)", lineHeight: 1.15, letterSpacing: "-0.01em",
       }}>
         The internet's favorite<br />crypto nerd
       </h1>
       <p style={{
-        margin: "0 auto", maxWidth: "320px", fontFamily: body,
+        margin: "0 auto 22px", maxWidth: "320px", fontFamily: body,
         fontSize: "0.9rem", lineHeight: 1.6, color: whiteSoft,
       }}>
         Connect, complete daily tasks, and stack points while Nerdio runs the airdrop.
       </p>
 
+      <Link
+        href="/airdrop"
+        className="nerdio-sticker-btn"
+        style={{
+          display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "8px",
+          background: lemon, color: bg, textDecoration: "none",
+          borderRadius: "14px", padding: "14px 26px", fontFamily: heading, fontSize: "0.9rem",
+          fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.02em",
+          border: "3px solid #0a0a0a", boxShadow: "4px 4px 0 #0a0a0a",
+        }}
+      >
+        Airdrop Campaign
+        <span>&rarr;</span>
+      </Link>
+
       <div className="nerdio-scroll-cue" style={{ color: lemon }}>&darr;</div>
 
       <style>{`
-        .nerdio-hero-photo-wrap {
-          position: relative; width: 148px; height: 148px; margin: 0 auto;
-        }
         .nerdio-hero-photo {
-          position: relative; width: 100%; height: 100%; object-fit: cover;
-          border-radius: 50%; border: 4px solid ${lemon};
-          background: #fff; z-index: 1;
+          width: 160px; height: 160px; object-fit: contain;
           animation: nerdio-float 4.5s ease-in-out infinite;
-        }
-        .nerdio-hero-glow {
-          position: absolute; inset: -14px; border-radius: 50%;
-          background: ${lemon}; opacity: 0.22; filter: blur(22px);
-          animation: nerdio-pulse 3.2s ease-in-out infinite;
         }
         @keyframes nerdio-float {
           0%, 100% { transform: translateY(0); }
           50% { transform: translateY(-10px); }
-        }
-        @keyframes nerdio-pulse {
-          0%, 100% { opacity: 0.18; transform: scale(1); }
-          50% { opacity: 0.32; transform: scale(1.08); }
         }
         .nerdio-particle {
           position: absolute; bottom: -10px; border-radius: 50%;
@@ -85,6 +85,11 @@ export function HeroSection() {
           10%  { opacity: 0.55; }
           90%  { opacity: 0.15; }
           100% { transform: translateY(-220px) scale(0.6); opacity: 0; }
+        }
+        .nerdio-sticker-btn { transition: transform 0.1s ease, box-shadow 0.1s ease; }
+        .nerdio-sticker-btn:active {
+          transform: translate(3px, 3px);
+          box-shadow: 1px 1px 0 #0a0a0a !important;
         }
         .nerdio-scroll-cue {
           margin-top: 18px; font-size: 1.1rem;
