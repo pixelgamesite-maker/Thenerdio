@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "wouter";
 import { ProfileMenu } from "@/components/nerdio/ProfileMenu";
 import { Profile } from "@/lib/nerdio-data";
-import { heading, bg, surface, white, stroke, lemon } from "@/lib/theme";
+import { heading, bg, surface, white, stroke } from "@/lib/theme";
 
 export function Header({ profile, onSignOut }: { profile: Profile | null; onSignOut: () => void }) {
   const [open, setOpen] = useState(false);
@@ -47,30 +47,6 @@ export function Header({ profile, onSignOut }: { profile: Profile | null; onSign
           {open && <ProfileMenu profile={profile} onSignOut={onSignOut} onClose={() => setOpen(false)} />}
         </div>
       </div>
-
-      <div style={{ padding: "16px 20px 4px" }}>
-        <Link
-          href="/airdrop"
-          className="nerdio-sticker-btn"
-          style={{
-            display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
-            background: lemon, color: bg, textDecoration: "none",
-            borderRadius: "14px", padding: "14px", fontFamily: heading, fontSize: "0.9rem",
-            fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.02em",
-            border: "3px solid #0a0a0a", boxShadow: "4px 4px 0 #0a0a0a",
-          }}
-        >
-          Airdrop Campaign
-          <span>&rarr;</span>
-        </Link>
-      </div>
-      <style>{`
-        .nerdio-sticker-btn { transition: transform 0.1s ease, box-shadow 0.1s ease; }
-        .nerdio-sticker-btn:active {
-          transform: translate(3px, 3px);
-          box-shadow: 1px 1px 0 #0a0a0a !important;
-        }
-      `}</style>
     </div>
   );
 }
