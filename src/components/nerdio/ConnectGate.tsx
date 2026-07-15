@@ -1,6 +1,26 @@
+import { SplashIntro, useSplashOnce } from "@/components/nerdio/SplashIntro";
 import { heading, body, bg, surface, white, whiteSoft, whiteFaint, stroke, lemon, shadowCard } from "@/lib/theme";
 
+/* The splash intro lives here, not in AppLayout — it's a design detail
+   of this screen specifically (the very first thing anyone sees before
+   connecting X), not something the layout should know or care about. */
 export function ConnectGate({ onConnect, connecting }: { onConnect: () => void; connecting: boolean }) {
+  const { show: showSplash, finish: finishSplash } = useSplashOnce();
+
+  return (
+    <>
+      <div style={{
+        filter: showSplash ? "blur(10px)" : "blur(0px)",
+        transition: "filter 0.6s ease",
+      }}>
+        <ConnectGateContent onConnect={onConnect} connecting={connecting} />
+      </div>
+      {showSplash && <SplashIntro onFinish={finishSplash} />}
+    </>
+  );
+}
+
+function ConnectGateContent({ onConnect, connecting }: { onConnect: () => void; connecting: boolean }) {
   return (
     <div style={{ minHeight: "100vh", background: bg, display: "flex", alignItems: "center", justifyContent: "center", padding: "20px" }}>
       <div style={{ width: "100%", maxWidth: "380px" }}>
