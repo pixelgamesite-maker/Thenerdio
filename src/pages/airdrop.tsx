@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { Label } from "@/components/nerdio/Label";
+import { Card } from "@/components/nerdio/Card";
 import { TaskRow } from "@/components/nerdio/TaskRow";
 import { ReferralTier } from "@/components/nerdio/ReferralTier";
 import { supabase } from "@/lib/supabaseClient";
 import { useNerdioProfile } from "@/context/NerdioContext";
 import { DailyTask, FALLBACK_TASKS, POINTS_PER_REFERRAL, formatCountdown, msUntilNextRotation } from "@/lib/nerdio-data";
-import { display, serif, stamp_f, ink, inkSoft, accent, paperDeep, paperCard, rule } from "@/lib/theme";
+import { heading, body, white, whiteFaint, surfaceSoft, bg, lemon } from "@/lib/theme";
 
 export default function AirdropPage() {
   const { profile, setProfile } = useNerdioProfile();
@@ -64,37 +65,32 @@ export default function AirdropPage() {
 
   return (
     <div>
-      {/* Points ticker — styled like a printed stock-ticker strip rather
-          than a glowing terminal readout. */}
-      <div style={{
-        background: paperDeep, border: `1px solid ${rule}`,
-        padding: "20px", marginBottom: "26px", textAlign: "center",
-      }}>
-        <div style={{ fontFamily: stamp_f, fontSize: "0.64rem", color: inkSoft, letterSpacing: "0.14em", textTransform: "uppercase" }}>
+      <Card style={{ textAlign: "center", background: surfaceSoft, marginBottom: "26px" }}>
+        <div style={{ fontFamily: body, fontSize: "0.68rem", color: whiteFaint, letterSpacing: "0.1em", textTransform: "uppercase" }}>
           Points balance
         </div>
-        <div style={{ fontFamily: display, fontSize: "2.6rem", color: ink, margin: "4px 0" }}>
+        <div style={{ fontFamily: heading, fontSize: "2.4rem", fontWeight: 800, color: lemon, margin: "4px 0" }}>
           {(profile?.points ?? 0).toLocaleString()}
         </div>
-        <div style={{ fontFamily: stamp_f, fontSize: "0.64rem", color: accent }}>
-          next edition in {countdown || "00:00:00"}
+        <div style={{ fontFamily: body, fontSize: "0.72rem", color: whiteFaint }}>
+          Next task cycle in {countdown || "00:00:00"}
         </div>
-      </div>
+      </Card>
 
-      <Label text="Today's assignments · resets every 24h" />
+      <Label text="Today's tasks · resets every 24h" />
       <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginBottom: "30px" }}>
         {tasks.map(task => (
           <TaskRow key={task.id} task={task} done={!!done[task.id]} onComplete={() => completeTask(task)} />
         ))}
       </div>
 
-      <Label text="Referral drive" />
-      <div style={{ background: paperCard, border: `1px solid ${rule}`, padding: "18px", marginBottom: "18px" }}>
-        <div style={{ fontFamily: stamp_f, fontSize: "0.68rem", color: inkSoft, marginBottom: "10px" }}>Your link</div>
+      <Label text="Referrals" />
+      <Card style={{ marginBottom: "16px" }}>
+        <div style={{ fontFamily: body, fontSize: "0.7rem", color: whiteFaint, marginBottom: "10px" }}>Your link</div>
         <div style={{ display: "flex", gap: "8px" }}>
           <div style={{
-            flex: 1, background: paperDeep, border: `1px solid ${rule}`,
-            padding: "10px 12px", fontFamily: stamp_f, fontSize: "0.72rem", color: ink,
+            flex: 1, background: bg, borderRadius: "8px",
+            padding: "10px 12px", fontFamily: body, fontSize: "0.74rem", color: white,
             overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
           }}>
             {referralLink || "connect to generate"}
@@ -102,20 +98,20 @@ export default function AirdropPage() {
           <button
             onClick={() => referralLink && navigator.clipboard.writeText(referralLink)}
             style={{
-              background: accent, color: "#fff", border: "none",
-              padding: "0 16px", fontFamily: display, fontSize: "0.72rem", textTransform: "uppercase", cursor: "pointer",
+              background: lemon, color: bg, border: "none", borderRadius: "8px",
+              padding: "0 16px", fontFamily: heading, fontSize: "0.74rem", fontWeight: 700, cursor: "pointer",
             }}
           >
             Copy
           </button>
         </div>
-      </div>
+      </Card>
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
         <ReferralTier label="5 referrals" progress={tier5} of={5} reward={`${5 * POINTS_PER_REFERRAL} pts`} unlocked={refCount >= 5} />
         <ReferralTier label="10 referrals" progress={tier10} of={5} reward={`${10 * POINTS_PER_REFERRAL} pts`} unlocked={refCount >= 10} />
       </div>
-      <p style={{ fontFamily: serif, fontSize: "0.76rem", color: inkSoft, marginTop: "10px" }}>
+      <p style={{ fontFamily: body, fontSize: "0.76rem", color: whiteFaint, marginTop: "10px" }}>
         {refCount} account{refCount === 1 ? "" : "s"} referred so far · {POINTS_PER_REFERRAL} pts each.
       </p>
     </div>
