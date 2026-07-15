@@ -6,13 +6,13 @@ import { AppShell } from "@/components/nerdio/AppShell";
 import Home from "@/pages/home";
 import ProfilePage from "@/pages/profile";
 import AirdropPage from "@/pages/airdrop";
-import { bgVoid, mono, green } from "@/lib/theme";
+import { paper, display, accent } from "@/lib/theme";
 
 export function AppLayout() {
   const { session, profile, setProfile, loading, connecting, connectX, signOut } = useAuth();
 
   if (loading) {
-    return <div style={{ minHeight: "100vh", background: bgVoid }} />;
+    return <div style={{ minHeight: "100vh", background: paper }} />;
   }
 
   if (!session) {
@@ -27,8 +27,8 @@ export function AppLayout() {
           <Route path="/profile" component={ProfilePage} />
           <Route path="/airdrop" component={AirdropPage} />
           <Route>
-            <div style={{ fontFamily: mono, fontSize: "0.9rem", color: green, textAlign: "center", padding: "40px 0" }}>
-              404 — page not found
+            <div style={{ fontFamily: display, fontSize: "1.1rem", color: accent, textAlign: "center", padding: "40px 0", textTransform: "uppercase" }}>
+              404 — story not found
             </div>
           </Route>
         </Switch>

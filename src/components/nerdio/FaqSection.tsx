@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { Label } from "@/components/nerdio/Label";
 import { FAQS } from "@/lib/nerdio-data";
-import { sans, mono, green, dim, bgPanel, lineSoft } from "@/lib/theme";
+import { display, serif, ink, inkSoft, paperCard, rule } from "@/lib/theme";
 
 export function FaqSection() {
   const [open, setOpen] = useState<number | null>(0);
   return (
     <div>
-      <Label text="man nerdio_faq" />
-      <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+      <Label text="Reader mail" />
+      <div style={{ display: "flex", flexDirection: "column", gap: "1px", background: rule }}>
         {FAQS.map((f, i) => (
-          <div key={i} style={{ background: bgPanel, border: `1px solid ${lineSoft}`, borderRadius: "6px", overflow: "hidden" }}>
+          <div key={i} style={{ background: paperCard }}>
             <button
               onClick={() => setOpen(open === i ? null : i)}
               style={{
@@ -19,11 +19,11 @@ export function FaqSection() {
                 cursor: "pointer",
               }}
             >
-              <span style={{ fontFamily: sans, fontSize: "0.86rem", fontWeight: 700, color: "#fff" }}>{f.q}</span>
-              <span style={{ fontFamily: mono, color: green, fontSize: "0.9rem" }}>{open === i ? "−" : "+"}</span>
+              <span style={{ fontFamily: serif, fontSize: "0.9rem", fontWeight: 600, color: ink }}>{f.q}</span>
+              <span style={{ fontFamily: display, color: ink, fontSize: "1rem" }}>{open === i ? "−" : "+"}</span>
             </button>
             {open === i && (
-              <div style={{ padding: "0 16px 16px", fontFamily: sans, fontSize: "0.8rem", color: dim, lineHeight: 1.6 }}>
+              <div style={{ padding: "0 16px 16px", fontFamily: serif, fontSize: "0.84rem", color: inkSoft, lineHeight: 1.65 }}>
                 {f.a}
               </div>
             )}
