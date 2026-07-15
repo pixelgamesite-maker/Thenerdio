@@ -1,28 +1,29 @@
 /* ────────────────────────────────────────────────────────────────────────
-   THE NERDIO — design tokens, v2
-   Newsprint/tabloid system. Warm cream paper, ink-black type, one accent
-   pulled from actual print — a rubber-stamp brick red — instead of a
-   black void with a glowing neon accent. No terminal chrome anywhere.
+   THE NERDIO — design tokens, v3
+   Clean fintech system: deep green background, lemon-green accent, white
+   text. Real UI fonts (Manrope for headings, Inter for body) — no
+   monospace/serif/typewriter gimmicks, no terminal chrome, no newsprint.
    ──────────────────────────────────────────────────────────────────────── */
 
 export const FONT_LINK =
-  "https://fonts.googleapis.com/css2?family=Anton&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Special+Elite&display=swap";
+  "https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap";
 
-export const display = "'Anton', 'Arial Narrow', sans-serif"; /* masthead, headlines, big numbers */
-export const serif   = "'Lora', Georgia, serif";               /* body copy */
-export const stamp_f = "'Special Elite', 'Courier New', monospace"; /* stamps, bylines, datelines */
+export const heading = "'Manrope', -apple-system, 'Segoe UI', sans-serif"; /* headings, buttons, numbers */
+export const body     = "'Inter', -apple-system, 'Segoe UI', sans-serif";  /* body copy, labels */
 
-export const paper      = "#ece5d3"; /* base page background — aged newsprint */
-export const paperDeep  = "#e0d8c2"; /* recessed panels, ticker strip */
-export const paperCard  = "#f4efe2"; /* raised card surface, slightly lighter than base */
-export const ink        = "#211c14"; /* primary text */
-export const inkSoft    = "rgba(33,28,20,0.62)"; /* secondary text */
-export const inkFaint   = "rgba(33,28,20,0.38)"; /* tertiary / metadata */
-export const rule       = "rgba(33,28,20,0.2)";  /* hairlines, borders */
-export const ruleSoft   = "rgba(33,28,20,0.1)";
+export const bg          = "#0b2b1f"; /* deep green — page background */
+export const surface     = "#123a2a"; /* raised panel / card */
+export const surfaceSoft = "#0e3226"; /* recessed panel, e.g. ticker strip */
+export const surfaceHi   = "#184636"; /* hover state on cards */
 
-export const accent     = "#a53a2c"; /* rubber-stamp brick red — primary accent */
-export const accentDark = "#7c2a20"; /* hover / pressed */
-export const highlight  = "#c98f1f"; /* mustard — used sparingly, e.g. unlocked states */
+export const white     = "#ffffff";
+export const whiteSoft = "rgba(255,255,255,0.66)";
+export const whiteFaint= "rgba(255,255,255,0.4)";
+export const stroke    = "rgba(255,255,255,0.1)";
+export const strokeSoft= "rgba(255,255,255,0.06)";
 
-export const shadowCard = "0 3px 0 rgba(33,20,12,0.08), 0 10px 24px rgba(33,20,12,0.14)";
+export const lemon     = "#d7f24c"; /* primary accent */
+export const lemonDim  = "#a8c23c"; /* pressed / secondary use */
+export const lemonSoft = "rgba(215,242,76,0.14)"; /* tinted background for accent chips */
+
+export const shadowCard = "0 8px 24px rgba(0,0,0,0.25)";
