@@ -73,7 +73,7 @@ export function useAuth() {
     if (ref) localStorage.setItem(REF_STORAGE_KEY, ref);
 
     await supabase.auth.signInWithOAuth({
-      provider: "twitter",
+      provider: "x",
       options: { redirectTo: `${window.location.origin}/auth/callback` },
     });
   }, []);
