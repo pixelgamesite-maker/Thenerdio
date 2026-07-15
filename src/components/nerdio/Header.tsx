@@ -25,7 +25,7 @@ export function Header({ profile, onSignOut }: { profile: Profile | null; onSign
         <Link href="/" style={{ display: "flex", alignItems: "center", gap: "9px", textDecoration: "none" }}>
           <img src="/Nerd-logo.jpg" alt="" style={{ width: "30px", height: "30px", borderRadius: "50%" }} />
           <span style={{ fontFamily: heading, fontSize: "1.05rem", fontWeight: 800, color: white, letterSpacing: "-0.01em" }}>
-            The Nerdio
+           Nerdio
           </span>
         </Link>
 
