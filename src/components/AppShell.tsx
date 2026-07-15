@@ -4,10 +4,9 @@ import { Profile } from "@/lib/nerdio-data";
 import { sans, mono, green, dim, lineSoft, bgPanel2, line } from "@/lib/theme";
 
 const TABS: { path: string; label: string }[] = [
+  { path: "/", label: "Home" },
   { path: "/profile", label: "Profile" },
   { path: "/airdrop", label: "Airdrop" },
-  { path: "/faq", label: "FAQ" },
-  { path: "/lore", label: "Lore" },
 ];
 
 export function AppShell({ profile, onSignOut, children }: {
@@ -17,7 +16,7 @@ export function AppShell({ profile, onSignOut, children }: {
 
   return (
     <div style={{ maxWidth: "880px", margin: "0 auto", minHeight: "100vh", borderLeft: `1px solid ${lineSoft}`, borderRight: `1px solid ${lineSoft}` }}>
-      <TerminalBar path={location} />
+      <TerminalBar path={location === "/" ? "~" : location} />
 
       <div style={{
         display: "flex", alignItems: "center", justifyContent: "space-between",
