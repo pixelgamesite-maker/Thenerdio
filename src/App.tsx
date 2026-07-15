@@ -2,6 +2,7 @@ import { Router as WouterRouter, Route, Switch } from "wouter";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Home from "@/pages/home";
+import AuthCallback from "@/pages/Auth/callback";
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
         <WouterRouter>
           <Switch>
             <Route path="/" component={Home} />
+            <Route path="/auth/callback" component={AuthCallback} />
             <Route>
               <div
                 style={{
@@ -19,13 +21,13 @@ function App() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  fontFamily: "'Cormorant Garamond', Georgia, serif",
-                  fontWeight: 700,
-                  fontSize: "2rem",
-                  color: "#c9a84c",
+                  fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
+                  fontWeight: 600,
+                  fontSize: "1.4rem",
+                  color: "#8fd694",
                 }}
               >
-                404 — NOT FOUND
+                THE NERDIO — 404 NOT FOUND
               </div>
             </Route>
           </Switch>
