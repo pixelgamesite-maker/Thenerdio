@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { supabase } from "@/lib/supabaseClient";
-import { paper, paperCard, display, stamp_f, ink, inkSoft, accent, shadowCard } from "@/lib/theme";
+import { bg, surface, heading, body, white, whiteFaint, stroke, lemon, shadowCard } from "@/lib/theme";
 
 /* Supabase's client parses the OAuth redirect (detectSessionInUrl is on
    by default), so this page just needs to wait for a session to show up
@@ -39,35 +39,29 @@ export default function AuthCallback() {
   }, [navigate]);
 
   return (
-    <div style={{ minHeight: "100vh", background: paper, display: "flex", alignItems: "center", justifyContent: "center", padding: "24px" }}>
+    <div style={{ minHeight: "100vh", background: bg, display: "flex", alignItems: "center", justifyContent: "center", padding: "24px" }}>
       <div style={{
-        width: "100%", maxWidth: "400px", background: paperCard, boxShadow: shadowCard, padding: "28px 24px",
-        backgroundImage: "radial-gradient(rgba(33,28,20,0.05) 0.7px, transparent 0.7px)", backgroundSize: "5px 5px",
+        width: "100%", maxWidth: "360px", background: surface, border: `1px solid ${stroke}`,
+        borderRadius: "16px", boxShadow: shadowCard, padding: "26px 22px", textAlign: "center",
       }}>
-        <div style={{
-          fontFamily: stamp_f, fontSize: "0.62rem", letterSpacing: "0.14em", textTransform: "uppercase",
-          color: status === "error" ? accent : inkSoft, marginBottom: "10px",
-        }}>
-          Press room
-        </div>
-        <div style={{ fontFamily: display, fontSize: "1.2rem", color: status === "error" ? accent : ink, textTransform: "uppercase", lineHeight: 1.2 }}>
+        <div style={{ fontFamily: heading, fontSize: "1.05rem", fontWeight: 800, color: status === "error" ? lemon : white }}>
           {message}
         </div>
         {status === "waiting" && (
-          <div style={{ fontFamily: stamp_f, fontSize: "0.7rem", color: inkSoft, marginTop: "12px" }}>
-            hang tight, this only takes a second_
+          <div style={{ fontFamily: body, fontSize: "0.75rem", color: whiteFaint, marginTop: "10px" }}>
+            Hang tight, this only takes a second.
           </div>
         )}
         {status === "error" && (
           <button
             onClick={() => navigate("/")}
             style={{
-              marginTop: "18px", background: "none", border: `1px solid ${accent}`,
-              color: accent, padding: "8px 14px",
-              fontFamily: stamp_f, fontSize: "0.7rem", cursor: "pointer",
+              marginTop: "16px", background: "none", border: `1px solid ${lemon}`,
+              color: lemon, borderRadius: "8px", padding: "8px 14px",
+              fontFamily: heading, fontSize: "0.72rem", fontWeight: 700, cursor: "pointer",
             }}
           >
-            back to start
+            Back to start
           </button>
         )}
       </div>
