@@ -1,5 +1,5 @@
 import { Masthead } from "@/components/nerdio/Masthead";
-import { display, serif, stamp_f, paper, paperCard, ink, inkSoft, rule, accent, accentDark, shadowCard } from "@/lib/theme";
+import { display, stamp_f, paper, paperCard, ink, inkSoft, rule, accent, accentDark, shadowCard } from "@/lib/theme";
 
 export function ConnectGate({ onConnect, connecting }: { onConnect: () => void; connecting: boolean }) {
   const today = new Date().toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" });
@@ -33,27 +33,7 @@ export function ConnectGate({ onConnect, connecting }: { onConnect: () => void; 
               Exclusive
             </div>
           </div>
-          <div style={{
-            textAlign: "center", fontFamily: stamp_f, fontSize: "0.62rem",
-            fontStyle: "italic", color: inkSoft, marginBottom: "16px",
-          }}>
-            Pictured: Nerdio, allegedly unbothered
-          </div>
-
-          <h1 style={{
-            margin: "0 0 10px", fontFamily: display, fontSize: "1.9rem",
-            lineHeight: 1.05, color: ink, textTransform: "uppercase", textAlign: "center",
-          }}>
-            Airdrop opens to the public
-          </h1>
-
-          <p style={{ margin: "0 0 4px", fontFamily: serif, fontSize: "0.95rem", lineHeight: 1.65, color: inkSoft }}>
-            The internet's favorite crypto nerd is running an airdrop. Connect your X
-            account to claim your press pass and start earning points — daily tasks,
-            referral rewards, and the full Nerdio file, all in one place.
-          </p>
-
-          <div style={{ height: "1px", background: rule, margin: "20px 0" }} />
+          <div style={{ height: "1px", background: rule, margin: "6px 0 20px" }} />
 
           <button
             onClick={onConnect}
