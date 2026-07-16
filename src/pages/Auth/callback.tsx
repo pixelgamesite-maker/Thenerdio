@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { supabase } from "@/lib/supabaseClient";
+import { REDIRECT_STORAGE_KEY } from "@/lib/nerdio-data";
 import { bg, surface, heading, body, white, whiteFaint, stroke, lemon, shadowCard } from "@/lib/theme";
 
 /* Supabase's client parses the OAuth redirect (detectSessionInUrl is on
@@ -19,7 +20,9 @@ export default function AuthCallback() {
     const finish = () => {
       if (settled) return;
       settled = true;
-      navigate("/", { replace: true });
+      const target = localStorage.getItem(REDIRECT_STORAGE_KEY) || "/";
+      localStorage.removeItem(REDIRECT_STORAGE_KEY);
+      navigate(target, { replace: true });
     };
 
     supabase.auth.getSession().then(({ data, error }) => {
