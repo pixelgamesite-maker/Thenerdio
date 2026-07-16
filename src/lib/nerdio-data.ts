@@ -70,6 +70,7 @@ export function referralCodeFromId(id: string) {
 }
 
 export const REF_STORAGE_KEY = "nerdio_ref";
+export const REDIRECT_STORAGE_KEY = "nerdio_redirect_after_auth";
 
 /* Must match the `points_awarded` default on the `referrals` table in
    schema.sql — this constant is just for display math (e.g. the
