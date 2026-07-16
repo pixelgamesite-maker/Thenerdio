@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useLocation } from "wouter";
 import { HeroSection } from "@/components/nerdio/HeroSection";
 import { LoreSection } from "@/components/nerdio/LoreSection";
-import { PhotoBreak } from "@/components/nerdio/PhotoBreak";
 import { FaqSection } from "@/components/nerdio/FaqSection";
 import { Footer } from "@/components/nerdio/Footer";
 import { ConnectModal } from "@/components/nerdio/ConnectModal";
@@ -29,7 +28,6 @@ export default function Home() {
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: "28px", padding: "0 20px" }}>
         <LoreSection />
-        <PhotoBreak />
         <FaqSection />
         <Footer />
       </div>
