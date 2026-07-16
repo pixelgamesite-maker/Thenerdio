@@ -4,7 +4,9 @@ import { ProfileMenu } from "@/components/nerdio/ProfileMenu";
 import { Profile } from "@/lib/nerdio-data";
 import { heading, bg, surface, white, stroke } from "@/lib/theme";
 
-export function Header({ profile, onSignOut }: { profile: Profile | null; onSignOut: () => void }) {
+export function Header({ profile, isConnected, onSignOut }: {
+  profile: Profile | null; isConnected: boolean; onSignOut: () => void;
+}) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -25,27 +27,29 @@ export function Header({ profile, onSignOut }: { profile: Profile | null; onSign
         <Link href="/" style={{ display: "flex", alignItems: "center", gap: "9px", textDecoration: "none" }}>
           <img src="/Nerd-logo.jpg" alt="" style={{ width: "30px", height: "30px", borderRadius: "50%" }} />
           <span style={{ fontFamily: heading, fontSize: "1.05rem", fontWeight: 800, color: white, letterSpacing: "-0.01em" }}>
-           Nerdio
+            The Nerdio
           </span>
         </Link>
 
-        <div ref={ref} style={{ position: "relative" }}>
-          <button
-            onClick={() => setOpen(o => !o)}
-            style={{
-              background: "none", border: `1px solid ${stroke}`, borderRadius: "50%",
-              width: "38px", height: "38px", padding: 0, cursor: "pointer",
-              display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden",
-            }}
-          >
-            {profile?.x_avatar_url ? (
-              <img src={profile.x_avatar_url} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-            ) : (
-              <div style={{ width: "100%", height: "100%", background: surface }} />
-            )}
-          </button>
-          {open && <ProfileMenu profile={profile} onSignOut={onSignOut} onClose={() => setOpen(false)} />}
-        </div>
+        {isConnected && (
+          <div ref={ref} style={{ position: "relative" }}>
+            <button
+              onClick={() => setOpen(o => !o)}
+              style={{
+                background: "none", border: `1px solid ${stroke}`, borderRadius: "50%",
+                width: "38px", height: "38px", padding: 0, cursor: "pointer",
+                display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden",
+              }}
+            >
+              {profile?.x_avatar_url ? (
+                <img src={profile.x_avatar_url} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              ) : (
+                <div style={{ width: "100%", height: "100%", background: surface }} />
+              )}
+            </button>
+            {open && <ProfileMenu profile={profile} onSignOut={onSignOut} onClose={() => setOpen(false)} />}
+          </div>
+        )}
       </div>
     </div>
   );
