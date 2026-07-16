@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Redirect, Route, Switch } from "wouter";
 import { useAuth } from "@/hooks/useAuth";
 import { NerdioContext } from "@/context/NerdioContext";
@@ -18,6 +18,21 @@ export function AppLayout() {
   const { show: showSplash, finish: finishSplash } = useSplashOnce();
   const isConnected = !!session;
 
+  /* Keeps the `filter` CSS property present only while the blur
+     transition is actually happening. A lingering `filter: blur(0px)`
+     still creates a new containing block for any `position: fixed`
+     descendant (per the CSS spec), which silently breaks fixed
+     positioning for anything nested here — that's what caused the
+     Connect popup to render mid-page instead of over the viewport.
+     Dropping the property entirely once the transition completes
+     prevents that for this and any future fixed-position element. */
+  const [wrapperBlurred, setWrapperBlurred] = useState(true);
+  useEffect(() => {
+    if (showSplash) { setWrapperBlurred(true); return; }
+    const t = setTimeout(() => setWrapperBlurred(false), 650);
+    return () => clearTimeout(t);
+  }, [showSplash]);
+
   useEffect(() => {
     const link = document.createElement("link");
     link.rel = "stylesheet";
@@ -32,7 +47,7 @@ export function AppLayout() {
 
   return (
     <NerdioContext.Provider value={{ profile, setProfile, isConnected, connecting, connectX }}>
-      <div style={{ filter: showSplash ? "blur(10px)" : "blur(0px)", transition: "filter 0.6s ease" }}>
+      <div style={wrapperBlurred ? { filter: showSplash ? "blur(10px)" : "blur(0px)", transition: "filter 0.6s ease" } : undefined}>
         <AppShell profile={profile} isConnected={isConnected} onSignOut={signOut}>
           <Switch>
             <Route path="/" component={Home} />
