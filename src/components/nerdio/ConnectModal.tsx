@@ -1,3 +1,4 @@
+import { createPortal } from "react-dom";
 import { heading, body, bg, surface, white, whiteSoft, whiteFaint, stroke, lemon, shadowCard } from "@/lib/theme";
 
 export function ConnectModal({ open, onClose, onConnect, connecting }: {
@@ -5,7 +6,14 @@ export function ConnectModal({ open, onClose, onConnect, connecting }: {
 }) {
   if (!open) return null;
 
-  return (
+  /* Rendered via a portal straight into document.body — AppLayout wraps
+     the app in a div with a `filter` style (for the splash blur effect),
+     and CSS `filter` on an ancestor creates a new containing block for
+     `position: fixed` descendants, which silently turns "fixed" into
+     "relative to that ancestor" instead of the viewport. Portaling out
+     of that subtree sidesteps the problem entirely, regardless of
+     whatever filter/transform styles exist upstream now or later. */
+  return createPortal(
     <div
       onClick={onClose}
       style={{
@@ -60,6 +68,7 @@ export function ConnectModal({ open, onClose, onConnect, connecting }: {
           We only read your public profile. Nothing is posted on your behalf.
         </p>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
