@@ -1,22 +1,19 @@
 import { useEffect, useState } from "react";
-import { heading, bg, white, lemon } from "@/lib/theme";
+import { heading, lemon } from "@/lib/theme";
 
 const SEEN_KEY = "nerdio_splash_seen";
+const WORD = "NERDIO";
+const TYPE_MS = 160;
+const HOLD_MS = 600;
+const FADE_MS = 450;
 
-/* Plays once per browser session on first load, then fades out for good.
-   Pure CSS/SVG — no animation library, so it can't introduce a new
-   dependency the build doesn't have. */
+/* Plays once per browser session, at the app root — not tied to any
+   particular page, since there's no longer a dedicated "connect" gate
+   for it to hand off to. Pure CSS/SVG, no animation library. */
 export function useSplashOnce() {
   const [show, setShow] = useState(() => {
     try { return !sessionStorage.getItem(SEEN_KEY); } catch { return true; }
   });
-
-  useEffect(() => {
-    if (!show) return;
-    const t = setTimeout(() => finish(), 2200);
-    return () => clearTimeout(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   function finish() {
     try { sessionStorage.setItem(SEEN_KEY, "1"); } catch {}
@@ -27,92 +24,80 @@ export function useSplashOnce() {
 }
 
 export function SplashIntro({ onFinish }: { onFinish: () => void }) {
+  const [typed, setTyped] = useState(0);
   const [leaving, setLeaving] = useState(false);
 
   useEffect(() => {
-    const t = setTimeout(() => setLeaving(true), 1750);
+    if (typed >= WORD.length) return;
+    const t = setTimeout(() => setTyped(n => n + 1), TYPE_MS);
     return () => clearTimeout(t);
-  }, []);
+  }, [typed]);
+
+  useEffect(() => {
+    if (typed < WORD.length) return;
+    const t = setTimeout(() => setLeaving(true), HOLD_MS);
+    return () => clearTimeout(t);
+  }, [typed]);
 
   useEffect(() => {
     if (!leaving) return;
-    const t = setTimeout(onFinish, 450);
+    const t = setTimeout(onFinish, FADE_MS);
     return () => clearTimeout(t);
   }, [leaving, onFinish]);
 
   return (
     <div
-      onClick={() => setLeaving(true)}
       className={`nerdio-splash ${leaving ? "nerdio-splash-out" : ""}`}
       style={{
-        position: "fixed", inset: 0, zIndex: 100, background: bg,
-        display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer",
+        position: "fixed", inset: 0, zIndex: 100, background: "#04120c",
+        display: "flex", alignItems: "center", justifyContent: "center",
       }}
     >
-      <div className="nerdio-reticle">
-        <span className="nerdio-corner nerdio-corner-tl" />
-        <span className="nerdio-corner nerdio-corner-tr" />
-        <span className="nerdio-corner nerdio-corner-bl" />
-        <span className="nerdio-corner nerdio-corner-br" />
-
-        <svg className="nerdio-ring" viewBox="0 0 200 200" width="230" height="230">
-          <circle cx="100" cy="100" r="92" fill="none" stroke="rgba(255,255,255,0.16)" strokeWidth="1" />
+      <div className="nerdio-gate-rings">
+        <svg className="nerdio-ring-outer" viewBox="0 0 240 240" width="240" height="240">
+          <circle cx="120" cy="120" r="112" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="1.5" />
           <circle
-            cx="100" cy="100" r="92" fill="none" stroke={lemon} strokeWidth="1.6"
-            strokeDasharray="4 10" strokeLinecap="round"
+            cx="120" cy="120" r="112" fill="none" stroke={lemon} strokeWidth="2.5" strokeLinecap="round"
+            strokeDasharray={`${2 * Math.PI * 112 * 0.16} ${2 * Math.PI * 112}`}
+          />
+        </svg>
+        <svg className="nerdio-ring-inner" viewBox="0 0 240 240" width="196" height="196">
+          <circle cx="120" cy="120" r="112" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="1.5" />
+          <circle
+            cx="120" cy="120" r="112" fill="none" stroke={lemon} strokeWidth="2.5" strokeLinecap="round"
+            strokeDasharray={`${2 * Math.PI * 112 * 0.14} ${2 * Math.PI * 112}`}
+            opacity="0.75"
           />
         </svg>
 
-        <div className="nerdio-splash-mark">
-          <img src="/Nerd-logo.jpg" alt="" className="nerdio-splash-logo" />
-          <span style={{ fontFamily: heading, fontWeight: 800, color: white, fontSize: "1.4rem", letterSpacing: "0.02em" }}>
-            NERDIO
-          </span>
+        <div style={{ position: "relative", zIndex: 1, fontFamily: heading, fontWeight: 800, color: "#fff", fontSize: "1.8rem", letterSpacing: "0.06em" }}>
+          {WORD.slice(0, typed)}
+          <span className="nerdio-gate-caret">|</span>
         </div>
       </div>
 
       <style>{`
-        .nerdio-splash { transition: opacity 0.45s ease; }
+        .nerdio-splash { transition: opacity ${FADE_MS}ms ease; }
         .nerdio-splash-out { opacity: 0; }
 
-        .nerdio-reticle {
-          position: relative; width: 230px; height: 230px;
+        .nerdio-gate-rings {
+          position: relative; width: 240px; height: 240px;
           display: flex; align-items: center; justify-content: center;
         }
-        .nerdio-corner {
-          position: absolute; width: 22px; height: 22px;
-          border-color: ${lemon}; opacity: 0;
-          animation: nerdio-corner-in 0.6s ease forwards;
+        .nerdio-ring-outer, .nerdio-ring-inner {
+          position: absolute; top: 50%; left: 50%;
+          transform: translate(-50%, -50%);
         }
-        .nerdio-corner-tl { top: -6px; left: -6px; border-top: 2px solid; border-left: 2px solid; animation-delay: 0.05s; }
-        .nerdio-corner-tr { top: -6px; right: -6px; border-top: 2px solid; border-right: 2px solid; animation-delay: 0.15s; }
-        .nerdio-corner-bl { bottom: -6px; left: -6px; border-bottom: 2px solid; border-left: 2px solid; animation-delay: 0.15s; }
-        .nerdio-corner-br { bottom: -6px; right: -6px; border-bottom: 2px solid; border-right: 2px solid; animation-delay: 0.05s; }
-        @keyframes nerdio-corner-in {
-          0%   { opacity: 0; transform: scale(1.6); }
-          100% { opacity: 1; transform: scale(1); }
-        }
+        .nerdio-ring-outer { animation: nerdio-spin-cw 7s linear infinite; }
+        .nerdio-ring-inner { animation: nerdio-spin-ccw 9s linear infinite; }
+        @keyframes nerdio-spin-cw  { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
+        @keyframes nerdio-spin-ccw { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(-360deg); } }
 
-        .nerdio-ring {
-          position: absolute; opacity: 0;
-          animation: nerdio-spin 14s linear infinite, nerdio-ring-in 0.5s ease 0.2s forwards;
+        .nerdio-gate-caret {
+          display: inline-block; margin-left: 2px; color: ${lemon};
+          animation: nerdio-caret-blink 0.9s steps(1) infinite;
         }
-        @keyframes nerdio-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes nerdio-ring-in { to { opacity: 1; } }
-
-        .nerdio-splash-mark {
-          display: flex; flex-direction: column; align-items: center; gap: 10px;
-          opacity: 0; filter: blur(6px); transform: scale(0.85);
-          animation: nerdio-mark-in 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) 0.35s forwards;
-        }
-        @keyframes nerdio-mark-in {
-          0%   { opacity: 0; filter: blur(6px); transform: scale(0.85) skewX(6deg); }
-          60%  { opacity: 1; filter: blur(0px); transform: scale(1.04) skewX(-2deg); }
-          100% { opacity: 1; filter: blur(0px); transform: scale(1) skewX(0deg); }
-        }
-        .nerdio-splash-logo {
-          width: 54px; height: 54px; border-radius: 50%; object-fit: cover;
-        }
+        @keyframes nerdio-caret-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
       `}</style>
     </div>
   );
