@@ -1,12 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabaseClient";
-import { Profile, REF_STORAGE_KEY, referralCodeFromId } from "@/lib/nerdio-data";
+import { Profile, REF_STORAGE_KEY, REDIRECT_STORAGE_KEY, referralCodeFromId } from "@/lib/nerdio-data";
 
-/* ── Auth wiring — assumes X (Twitter) is configured as an OAuth provider
-   in your Supabase project. If you're handling OAuth outside Supabase
-   (your own /api/auth/x endpoints), swap out `connectX` below and keep
-   the rest of this hook — session/profile shape stays the same either way. ── */
+/* ── Auth wiring — assumes X is configured as an OAuth provider in your
+   Supabase project (Supabase's SDK key for it is "x", not "twitter"). ── */
 export function useAuth() {
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -67,10 +65,11 @@ export function useAuth() {
     })();
   }, [session]);
 
-  const connectX = useCallback(async () => {
+  const connectX = useCallback(async (targetPath: string = "/") => {
     setConnecting(true);
     const ref = new URLSearchParams(window.location.search).get("ref");
     if (ref) localStorage.setItem(REF_STORAGE_KEY, ref);
+    localStorage.setItem(REDIRECT_STORAGE_KEY, targetPath);
 
     await supabase.auth.signInWithOAuth({
       provider: "x",
@@ -81,5 +80,4 @@ export function useAuth() {
   const signOut = useCallback(() => supabase.auth.signOut(), []);
 
   return { session, profile, setProfile, loading, connecting, connectX, signOut };
-  }
-  
+}
