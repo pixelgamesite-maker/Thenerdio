@@ -33,16 +33,7 @@ export function ConnectModal({ open, onClose, onConnect, connecting }: {
           &times;
         </button>
 
-        <img
-          src="/Nerd-head.png"
-          alt="Nerdio"
-          style={{
-            width: "72px", height: "72px", objectFit: "cover", borderRadius: "50%",
-            border: `3px solid ${lemon}`, margin: "0 auto 16px", display: "block", background: "#fff",
-          }}
-        />
-
-        <h2 style={{ margin: "0 0 8px", fontFamily: heading, fontSize: "1.2rem", fontWeight: 800, color: white, lineHeight: 1.25 }}>
+        <h2 style={{ margin: "6px 0 8px", fontFamily: heading, fontSize: "1.2rem", fontWeight: 800, color: white, lineHeight: 1.25 }}>
           The internet's favorite crypto nerd
         </h2>
         <p style={{ margin: "0 0 22px", fontFamily: body, fontSize: "0.84rem", lineHeight: 1.6, color: whiteSoft }}>
