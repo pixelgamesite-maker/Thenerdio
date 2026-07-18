@@ -1,6 +1,12 @@
 export const X_PROFILE_URL = "https://x.com/thenerdio";
 export const SUPPORT_EMAIL = "support@nerdio.fun";
 
+/* Flip to true when the airdrop campaign is ready to launch — until
+   then, the Join Airdrop Campaign button shows a "coming soon" message
+   instead of opening the connect popup. Nothing else needs to change;
+   the existing connect/modal/redirect flow is untouched underneath. */
+export const AIRDROP_LIVE = false;
+
 /* Adjust to match your live daily-task rotation window. */
 export const DAY_MS = 24 * 60 * 60 * 1000;
 
