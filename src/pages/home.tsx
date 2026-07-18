@@ -5,14 +5,18 @@ import { LoreSection } from "@/components/nerdio/LoreSection";
 import { FaqSection } from "@/components/nerdio/FaqSection";
 import { Footer } from "@/components/nerdio/Footer";
 import { ConnectModal } from "@/components/nerdio/ConnectModal";
+import { ComingSoonToast } from "@/components/nerdio/ComingSoonToast";
 import { useNerdioProfile } from "@/context/NerdioContext";
+import { AIRDROP_LIVE } from "@/lib/nerdio-data";
 
 export default function Home() {
   const { isConnected, connecting, connectX } = useNerdioProfile();
   const [, navigate] = useLocation();
   const [modalOpen, setModalOpen] = useState(false);
+  const [showComingSoon, setShowComingSoon] = useState(false);
 
   function handleJoin() {
+    if (!AIRDROP_LIVE) { setShowComingSoon(true); return; }
     if (isConnected) { navigate("/airdrop"); return; }
     setModalOpen(true);
   }
@@ -38,6 +42,7 @@ export default function Home() {
         onConnect={handleConnect}
         connecting={connecting}
       />
+      <ComingSoonToast show={showComingSoon} onDone={() => setShowComingSoon(false)} />
     </div>
   );
 }
