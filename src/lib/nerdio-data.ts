@@ -1,4 +1,5 @@
 export const X_PROFILE_URL = "https://x.com/thenerdio";
+export const SUPPORT_EMAIL = "support@nerdio.fun";
 
 /* Adjust to match your live daily-task rotation window. */
 export const DAY_MS = 24 * 60 * 60 * 1000;
