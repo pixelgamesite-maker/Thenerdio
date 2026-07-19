@@ -1,5 +1,5 @@
 import { createPortal } from "react-dom";
-import { heading, body, bg, surface, white, whiteSoft, whiteFaint, stroke, lemon, shadowCard } from "@/lib/theme";
+import { heading, body, white, whiteSoft, whiteFaint, stroke, surface, gradientAccent, shadowCard } from "@/lib/theme";
 
 export function ConnectModal({ open, onClose, onConnect, connecting }: {
   open: boolean; onClose: () => void; onConnect: () => void; connecting: boolean;
@@ -17,7 +17,7 @@ export function ConnectModal({ open, onClose, onConnect, connecting }: {
     <div
       onClick={onClose}
       style={{
-        position: "fixed", inset: 0, zIndex: 50, background: "rgba(4,18,12,0.72)",
+        position: "fixed", inset: 0, zIndex: 50, background: "rgba(11,7,19,0.75)",
         display: "flex", alignItems: "center", justifyContent: "center", padding: "20px",
       }}
     >
@@ -53,7 +53,7 @@ export function ConnectModal({ open, onClose, onConnect, connecting }: {
           disabled={connecting}
           style={{
             width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: "9px",
-            background: connecting ? "rgba(215,242,76,0.4)" : lemon, color: bg,
+            background: connecting ? "rgba(153,69,255,0.35)" : gradientAccent, color: white,
             border: "none", borderRadius: "12px", padding: "13px",
             fontFamily: heading, fontSize: "0.86rem", fontWeight: 800,
             cursor: connecting ? "not-allowed" : "pointer",
