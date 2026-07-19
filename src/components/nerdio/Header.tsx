@@ -25,7 +25,7 @@ export function Header({ profile, isConnected, onSignOut }: {
         padding: "16px 20px 14px", borderBottom: `1px solid ${stroke}`,
       }}>
         <Link href="/" style={{ display: "flex", alignItems: "center", gap: "9px", textDecoration: "none" }}>
-          <img src="/Nerd-logo.jpg" alt="" style={{ width: "30px", height: "30px", borderRadius: "50%" }} />
+          <img src="/Nerd-head.png" alt="" style={{ height: "30px", width: "auto" }} />
           <span style={{ fontFamily: heading, fontSize: "1.05rem", fontWeight: 800, color: white, letterSpacing: "-0.01em" }}>
             The Nerdio
           </span>
