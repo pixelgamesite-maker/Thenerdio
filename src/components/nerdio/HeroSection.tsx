@@ -1,4 +1,4 @@
-import { heading, body, bg, white, whiteSoft, lemon } from "@/lib/theme";
+import { heading, body, white, whiteSoft, gradientAccent, solanaPurple, lemon } from "@/lib/theme";
 
 export function HeroSection({ onJoin }: { onJoin: () => void }) {
   return (
@@ -24,7 +24,7 @@ export function HeroSection({ onJoin }: { onJoin: () => void }) {
         className="nerdio-sticker-btn"
         style={{
           display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "8px",
-          background: lemon, color: bg,
+          background: gradientAccent, color: white,
           borderRadius: "14px", padding: "14px 26px", fontFamily: heading, fontSize: "0.9rem",
           fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.02em",
           border: "3px solid #0a0a0a", boxShadow: "4px 4px 0 #0a0a0a", cursor: "pointer",
@@ -39,8 +39,8 @@ export function HeroSection({ onJoin }: { onJoin: () => void }) {
           height: 14px; margin: 30px 0 26px; border-radius: 3px;
           background: repeating-linear-gradient(
             135deg,
-            ${lemon} 0px, ${lemon} 10px,
-            transparent 10px, transparent 20px
+            ${solanaPurple} 0px, ${solanaPurple} 10px,
+            ${lemon} 10px, ${lemon} 20px
           );
           opacity: 0.9;
         }
