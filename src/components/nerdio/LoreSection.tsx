@@ -19,8 +19,7 @@ export function LoreSection() {
           according to the replies. Results: undeniable, according to the chart.
         </p>
         <p style={{ fontFamily: body, fontSize: "0.86rem", lineHeight: 1.7, color: whiteSoft, margin: "0 0 14px" }}>
-          Nerdio doesn't trade memes — he studies them. Sleep is bearish. Touching grass is a rounding
-          error. The method is simple: find coin, check chart, ignore FUD, buy, tweet about it, repeat.
+          This one’s for the lads who never left the trenches, the ones glued to Dexscreener 24/7, the chart watchers, the degens, the believers, and the ones who keep grinding no matter what. This one’s for the nerdios!
         </p>
         <p style={{ fontFamily: body, fontSize: "0.86rem", lineHeight: 1.7, color: whiteSoft, margin: 0 }}>
           Now the airdrop is open to everyone. Connect, complete the daily cycle, bring your friends
