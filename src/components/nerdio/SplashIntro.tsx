@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { heading, bg, lemon, solanaPurple, solanaGreen } from "@/lib/theme";
+import { heading, lemon } from "@/lib/theme";
 
 const SEEN_KEY = "nerdio_splash_seen";
 const WORD = "NERDIO";
@@ -49,36 +49,24 @@ export function SplashIntro({ onFinish }: { onFinish: () => void }) {
     <div
       className={`nerdio-splash ${leaving ? "nerdio-splash-out" : ""}`}
       style={{
-        position: "fixed", inset: 0, zIndex: 100, background: bg,
+        position: "fixed", inset: 0, zIndex: 100, background: "#04120c",
         display: "flex", alignItems: "center", justifyContent: "center",
       }}
     >
       <div className="nerdio-gate-rings">
         <svg className="nerdio-ring-outer" viewBox="0 0 240 240" width="240" height="240">
-          <defs>
-            <linearGradient id="nerdio-ring-grad-outer" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor={solanaPurple} />
-              <stop offset="100%" stopColor={solanaGreen} />
-            </linearGradient>
-          </defs>
           <circle cx="120" cy="120" r="112" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="1.5" />
           <circle
-            cx="120" cy="120" r="112" fill="none" stroke="url(#nerdio-ring-grad-outer)" strokeWidth="2.5" strokeLinecap="round"
+            cx="120" cy="120" r="112" fill="none" stroke={lemon} strokeWidth="2.5" strokeLinecap="round"
             strokeDasharray={`${2 * Math.PI * 112 * 0.16} ${2 * Math.PI * 112}`}
           />
         </svg>
         <svg className="nerdio-ring-inner" viewBox="0 0 240 240" width="196" height="196">
-          <defs>
-            <linearGradient id="nerdio-ring-grad-inner" x1="0%" y1="100%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor={solanaGreen} />
-              <stop offset="100%" stopColor={solanaPurple} />
-            </linearGradient>
-          </defs>
           <circle cx="120" cy="120" r="112" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="1.5" />
           <circle
-            cx="120" cy="120" r="112" fill="none" stroke="url(#nerdio-ring-grad-inner)" strokeWidth="2.5" strokeLinecap="round"
+            cx="120" cy="120" r="112" fill="none" stroke={lemon} strokeWidth="2.5" strokeLinecap="round"
             strokeDasharray={`${2 * Math.PI * 112 * 0.14} ${2 * Math.PI * 112}`}
-            opacity="0.85"
+            opacity="0.75"
           />
         </svg>
 
